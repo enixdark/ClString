@@ -1,0 +1,18 @@
+machine:
+  ruby:
+    version: 2.3.0
+checkout:
+  post:
+    - git submodule sync
+    - git submodule update --init
+dependencies:
+  pre:
+    - gem uninstall bundler
+    - gem install bundler --pre
+
+  override:
+    - bundle install: # note ':' here
+        timeout: 180 # fail if command has no output for 3 minutes
+test:
+  post:
+    - bundle exec rake test
